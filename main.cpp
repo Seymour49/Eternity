@@ -1,4 +1,3 @@
-#include <QApplication>
 
 #include "Model/piece_model.h"
 #include "Model/instance_model.h"
@@ -9,13 +8,6 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     /*
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
-
-    return a.exec();
-    */
-
     cout << "Debut debug instance" << endl;
     Instance inst;
     inst.tryLoadFile("../Eternity/instances_puzzles/pieces_04x04.txt");
@@ -26,11 +18,24 @@ int main(int argc, char *argv[])
 
     cout << "Fin debug instance" << endl;
 
+    cout << "Debut debug config" << endl;
+    cout << "config via fichier" << endl;
+    Configuration c("../Eternity/instances_puzzles/pieces_03x03.txt");
+    c.tryLoadFile("../Eternity/instances_results/pieces_03x03-result_01.txt");
+    cout << c;
 
+    Configuration c2("../Eternity/instances_puzzles/pieces_04x04.txt");
+    c2.randomConfiguration();
+    cout << " Config via randomconfiguration()" << endl;
+
+    cout << c2;
+
+    cout << "fin debug config" << endl;
+    */
     Configuration c("../Eternity/instances_puzzles/pieces_04x04.txt");
     c.tryLoadFile("../Eternity/instances_results/pieces_04x04-result_01.txt");
     cout << c;
-/*
 
-*/
+    cout << c.evaluateNbErrors() << " error(s)";
+
 }

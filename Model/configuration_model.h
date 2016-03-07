@@ -4,6 +4,7 @@
 #include "instance_model.h"
 #include <algorithm>
 #include <iterator>
+#include <time.h>
 
 /**
  * Classe définissant une configuration, qui correspond à un ensemble
@@ -47,7 +48,16 @@ public:
      */
     void randomConfiguration();
 
+    /**
+     * @brief Effectue nbRot sur le tableau d'entier correspondant au motif d'une piece
+     * @param motif
+     * @param nbRot
+     * @return Un tableau d'entier
+     */
     int* rotate(int motif[], int nbRot);
+
+    int verifNeighboor(int indVoisin, int card, int motifToTest);
+    int evaluateNbErrors();
 
 };
 

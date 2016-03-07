@@ -1,0 +1,128 @@
+// int Configuration::evaluateNbErrors(){
+int result = 0;
+int motifToTest[MAX_CARD];
+int* motifToTestAR;
+
+for(unsigned i=0; i < vectPos.size(); ++i){
+        pair<int, int> p = vectPos.at(i);
+        int cc = i % nbCols;
+        int cr = i / nbRows;
+        // Récupération du motif courant avec rotation
+        int currentMotif[MAX_CARD];
+        for( int j=0; j < MAX_CARD; ++j){
+            currentMotif[j] = vectPieces.at( (cr*nbCols) + cc).get_motif()[j];
+        }
+        int* currentMotifAR = rotate(currentMotif, p.second);
+
+        // Piece en 0,0
+        // Le motif Nord doit être égal à 0, le motif Ouest aussi
+        if(cr == 0 && cc == 0){
+            if(currentMotifAR[1] != 0)
+                ++result;
+            if(currentMotifAR[2] != 0)
+                ++result;
+            // Vérif Sud
+
+            for(int j = 0; j < MAX_CARD; ++j){
+                motifToTest[j] = vectPieces.at(nbCols).get_motif()[j];
+            }
+            motifToTestAR = rotate(motifToTest, vectPos.at(nbCols).second);
+            if(currentMotifAR[0] != motifToTestAR[2])
+                ++result;
+
+            // Vérif Est
+            for(int j = 0; j < MAX_CARD; ++j){
+                motifToTest[j] = vectPieces.at(1).get_motif()[j];
+            }
+            motifToTestAR = rotate(motifToTest, vectPos.at(1).second);
+            if(currentMotifAR[0] != motifToTestAR[1] )
+                ++result;
+
+        // Pièces sur la première ligne
+        }else if( cr == 0 ){
+            // Vérif Nord
+            if(currentMotifAR[2] != 0)
+                ++result;
+            // Vérif Sud
+            for(int j = 0; j < MAX_CARD; ++j){
+                motifToTest[j] = vectPieces.at(cc+nbCols).get_motif()[j];
+            }
+            motifToTestAR = rotate(motifToTest, vectPos.at(cc+nbCols).second);
+            if( currentMotifAR[0] != motifToTestAR[2])
+                ++result;
+            // Vérif Est
+            for(int j = 0; j < MAX_CARD; ++j){
+                motifToTest[j] = vectPieces.at(cc+1).get_motif()[j];
+            }
+            motifToTestAR = rotate(motifToTest, vectPos.at(cc+1).second);
+            if(currentMotifAR[3] != motifToTestAR[1])
+                ++result;
+
+        // Pièces en première colonne
+        }else if( cc == 0){
+            // Vérif Ouest
+            if( currentMotifAR[1] != 0)
+                ++result;
+            // Vérif Sud
+            for(int j=0; j< MAX_CARD; ++j){
+                motifToTest[j] = vectPieces.at(cr*nbCols).get_motif()[j];
+            }
+            motifToTestAR = rotate(motifToTest, vectPos.at(cr*nbCols).second);
+            if(currentMotifAR[0] != motifToTestAR[2])
+                ++result;
+            // Vérif Est
+            for(int j = 0; j < MAX_CARD; ++j){
+                motifToTest[j] = vectPieces.at((cr*nbCols)+1).get_motif()[j];
+            }
+            motifToTestAR = rotate(motifToTest, vectPos.at((cr*nbCols)+1).second);
+            if(currentMotifAR[3] != motifToTestAR[1])
+                ++result;
+
+        // Case en dernière colonne
+        }else if( (cc == (nbCols -1))){
+            // Vérif Sud
+            for(int j=0; j < MAX_CARD; ++j){
+                motifToTest[j] = vectPieces.at(cc+nbCols).get_motif()[j];
+            }
+            motifToTestAR = rotate(motifToTest, vectPos.at(cc+nbCols).second);
+            if(currentMotifAR[0] != motifToTestAR[2])
+                ++result;
+            // Vérif Est
+            if(currentMotifAR[3] != 0)
+                ++result;
+
+        // Case en dernière ligne
+        }else if( cr == (nbRows-1)){
+            // Vérif Sud
+            if(currentMotifAR[0] != 0)
+                ++result;
+            // Vérif Est
+            for(int j=0; j< MAX_CARD; ++j){
+                motifToTest[j] = vectPieces.at((cr*nbCols) + cc+1 ).get_motif()[j];
+            }
+            motifToTestAR = rotate(motifToTest, vectPos.at((cr*nbCols) + cc+1 ).second);
+            if(currentMotifAR[3] != motifToTestAR[1])
+                ++result;
+        // Cas général
+        }else{
+            // Vérif Sud
+            for(int j=0; j < MAX_CARD; ++j){
+                motifToTest[j] = vectPieces.at((cr+1)*nbCols + cc).get_motif()[j];
+            }
+            motifToTestAR = rotate(motifToTest, vectPos.at((cr+1)*nbCols + cc).second);
+            if(currentMotifAR[0] != motifToTestAR[2])
+                ++result;
+            // Vérif Est
+            for(int j=0; j< MAX_CARD; ++j){
+                motifToTest[j] = vectPieces.at((cr*nbCols) + cc+1 ).get_motif()[j];
+            }
+            motifToTestAR = rotate(motifToTest, vectPos.at((cr*nbCols) + cc+1 ).second);
+            if(currentMotifAR[3] != motifToTestAR[1])
+                ++result;
+        }
+    }
+return result;
+
+
+
+// Fin
