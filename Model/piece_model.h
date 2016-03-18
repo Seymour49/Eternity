@@ -43,6 +43,7 @@ public:
      */
     int get_id() const  { return id; }
     const int* get_motif() const   { return motif; }
+    int get_motif(int zone, int rot){ return motif[((MAX_CARD+zone)-rot)&3]; }
 
 };
 

@@ -32,10 +32,25 @@ int main(int argc, char *argv[])
 
     cout << "fin debug config" << endl;
     */
+   /*
     Configuration c("../Eternity/instances_puzzles/pieces_04x04.txt");
     c.tryLoadFile("../Eternity/instances_results/pieces_04x04-result_01.txt");
     cout << c;
 
-    cout << c.evaluateNbErrors() << " error(s)";
+    c.evaluateNbErrors();
+
+    cout << c.get_nbConflicts() << " error(s)";
+    */
+    Configuration c("../Eternity/instances_puzzles/pieces_16x16.txt");
+//    Configuration c2("../Eternity/instances_puzzles/pieces_04x04.txt");
+    c.initRandomConfig();
+//    c2.initRandomConfig();
+//    cout << c ;
+    /*
+     * Mise en place de l'algo
+     *
+     *
+     */
+//    c2 = c;  Fonctionne
 
 }

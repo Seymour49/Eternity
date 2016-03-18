@@ -5,6 +5,9 @@
 #include <algorithm>
 #include <iterator>
 #include <time.h>
+#include <random>
+#include <chrono>
+
 
 /**
  * Classe définissant une configuration, qui correspond à un ensemble
@@ -17,12 +20,16 @@
 class Configuration : public Instance {
 private:
     std::vector< std::pair< int, int> > vectPos;
+    std::vector< std::pair< int, int> > permut;
+    int nbConflicts;
+    int misplacedPieces;
 
 public:
 
     Configuration(const std::string instancePath);
 
-    std::vector< std::pair <int, int> > get_vectPos() const {return vectPos;}
+    std::vector< std::pair <int, int> > get_vectPos() const { return vectPos;}
+    std::vector< std::pair <int, int> > get_permut()  const { return permut;}
 
     /**
      * Impression sur un flux de l'instance
@@ -34,6 +41,12 @@ public:
     friend std::ostream& operator<<(std::ostream& out, Configuration& r)
     { return r.print(out); }
 
+    /**
+     * Getters and setters
+     *
+     */
+    int get_nbConflicts() const { return nbConflicts; }
+    int get_misplacedPieces() const { return misplacedPieces; }
 
     /**
      * Chargement d'un graphe sous forme de matrice
@@ -44,20 +57,30 @@ public:
     bool tryLoadFile(const std::string& fileName);
 
     /**
-     * Création des placements aléatoires des pièces (nécessaire pour l'affichage)
+     * @brief verifNeighboor
+     * @param indVoisin
+     * @param card
+     * @param motifToTest
+     * @return
      */
-    void randomConfiguration();
+    int verifNeighboor(int indVoisin, int card, int motifToTest);
+    /**
+     * @brief evaluateNbErrors
+     * Evalue le nombre de conflits au sein de la configuration.
+     * Est utilisé comme fonction de fitness de la recherche locale
+     */
+    void evaluateNbErrors();
 
     /**
-     * @brief Effectue nbRot sur le tableau d'entier correspondant au motif d'une piece
-     * @param motif
-     * @param nbRot
-     * @return Un tableau d'entier
+     * @brief initRandomConfig
+     * Fonction d'initialisation aléatoire de la configuration.
+     * Calcule en même temps les différentes permutations possibles.
+     * Les contraintes suivantes sont respectés :
+     * Les pièces (coins, bords et internes) sont placées aléatoirement.
+     * Les coins et bords disposent de la rotation leur permettant de
+     * respecter
      */
-    int* rotate(int motif[], int nbRot);
-
-    int verifNeighboor(int indVoisin, int card, int motifToTest);
-    int evaluateNbErrors();
+    void initRandomConfig();
 
 };
 
