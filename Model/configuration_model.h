@@ -30,6 +30,8 @@ public:
     std::vector< std::pair <int, int> > get_vectPos() const { return vectPos;}
     std::vector< std::pair <int, int> > get_permut()  const { return permut;}
 
+    void reverse_permut(int idD, int idA);
+
     /**
      * Impression sur un flux de l'instance
      * @param out
@@ -45,6 +47,16 @@ public:
      *
      */
     int get_nbConflicts() const { return nbConflicts; }
+    /**
+     * @brief update
+     * @param perm
+     * @param rot1
+     * @param rot2
+     *
+     * Inverse dans vectPos les pieces d'id perm.first, perm.second
+     * avec les rotations rot1 et rot2
+     */
+    void update(std::pair<int,int> perm, int rot1, int rot2);
 
     /**
      * Chargement d'un graphe sous forme de matrice
@@ -88,7 +100,7 @@ public:
      *
      */
 
-    void evaluate_local(std::pair< int, int>p);
+    std::pair< int, std::pair<int,int> >* evaluate_local(std::pair< int, int>p);
 
     /**
      * @brief nbConflictsHere
