@@ -22,7 +22,6 @@ private:
     std::vector< std::pair< int, int> > vectPos;
     std::vector< std::pair< int, int> > permut;
     int nbConflicts;
-    int misplacedPieces;
 
 public:
 
@@ -46,7 +45,6 @@ public:
      *
      */
     int get_nbConflicts() const { return nbConflicts; }
-    int get_misplacedPieces() const { return misplacedPieces; }
 
     /**
      * Chargement d'un graphe sous forme de matrice
@@ -70,6 +68,35 @@ public:
      * Est utilisé comme fonction de fitness de la recherche locale
      */
     void evaluateNbErrors();
+
+    /**
+     * @brief evaluate_local
+     * Permet d'évaluer l'impact potentiel
+     * d'une permutation. On récupère d'abord
+     * le score actuel local puis on évalue les
+     * scores possibles après permutation pour chaque
+     * rotation possible.
+     * En cas de déplacement d'un bord ou d'un coin, il
+     * n'y a pas besoin de tester les rotations, celle-ci ne
+     * pouvant changer en raison des contraintes qui leurs sont propres.
+     *
+     * En revanche, pour une pice interne, deux cas de figures se présentent.
+     * Soit les pièces sont voisines, et dans ce cas nous devons tester toutes
+     * les rotations. (16)
+     *
+     * Soit les pièces ne sont pas voisines et nous devons tester seulement
+     *
+     */
+
+    void evaluate_local(std::pair< int, int>p);
+
+    /**
+     * @brief nbConflictsHere
+     * @param indice
+     * @return
+     * Teste le nombre de conflits sur la case indice
+     */
+    int nbConflictsHere(std::pair<int, int> p, int indice);
 
     /**
      * @brief initRandomConfig
